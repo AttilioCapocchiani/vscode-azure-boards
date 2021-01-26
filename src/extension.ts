@@ -2,8 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import { window, commands, ExtensionContext } from 'vscode';
 
-
 import addQuery from './commands/addQuery';
+import runQuery from "./commands/runQuery";
 
 async function setPAT(context: ExtensionContext) {
 	const PAT = await window.showInputBox({
@@ -17,16 +17,13 @@ async function setPAT(context: ExtensionContext) {
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-	const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
 	const addQueryCommand = commands.registerCommand("azure-boards.addQuery", () => addQuery(context));
+	const runQueryCommand = commands.registerCommand("azure-boards.runQuery", () => runQuery(context));
+	const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
 
-	context.subscriptions.push(commands.registerCommand("azure-boards.seePAT", () => {
-		const pat: string | undefined = context.workspaceState.get("encryptedPAT");
-		window.showInformationMessage(pat || "NNT");
-	}));
-
-	context.subscriptions.push(setPATCommand);
 	context.subscriptions.push(addQueryCommand);
+	context.subscriptions.push(runQueryCommand);
+	context.subscriptions.push(setPATCommand);
 }
 
 
