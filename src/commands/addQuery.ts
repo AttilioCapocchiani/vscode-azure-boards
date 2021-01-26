@@ -1,5 +1,5 @@
+import * as _ from 'lodash';
 import axios from 'axios';
-import { Map as mapImmutable, Set as ImmutableSet } from 'immutable'
 import { ExtensionContext, QuickPickItem, window } from 'vscode';
 import { QueryConfiguration } from '../interfaces/interfaces';
 
@@ -14,36 +14,34 @@ export default async function addQuery(context: ExtensionContext) {
     const pat: string = context.workspaceState.get("encryptedPAT", "");
 
     if (pat) {
-        const listJSON = context.workspaceState.get("organizations", "[]");
-        const savedQueries = context.workspaceState.get("queries", "[]");
-
+        const listJSON = context.workspaceState.get("organizations", []);
+        const queries: Array<QueryConfiguration> = context.workspaceState.get("queries", []);
         const list: Set<string> = new Set(Array.from(listJSON));
 
         if (!list.size) {
             const organization = await askForOrganization(list, context);
 
             if (organization) {
-               const projects = await retrieveProjects(organization, pat);
+                const projects = await retrieveProjects(organization, pat);
 
-               const options: Array<QuickPickItem> = projects.map((p: any) => {
-                return {
-                    label: p.name,
-                    detail: p.description
-                };
-            });
+                const options: Array<QuickPickItem> = projects.map((p: any) => {
+                    return {
+                        label: p.name,
+                        detail: p.description
+                    };
+                });
 
-            const project = await window.showQuickPick(options, { placeHolder: "Select the project"});
-               if (project) {
-
-               }
+                const projectQuickPickItem = await window.showQuickPick(options, { placeHolder: "Select the project" });
+                const project = projectQuickPickItem?.label;
+                if (project) {
+                    handleProject(queryPath, organization, project, queries, context);
+                }
             } else {
                 throw new Error("Please provide an organization name");
             }
-
-
         } else {
             // have some orgs cached
-            let organization = await window.showQuickPick([...list, "Other..."], { placeHolder: "Select an organization"});
+            let organization = await window.showQuickPick([...list, "Other..."], { placeHolder: "Select an organization" });
             // window.showInformationMessage(`Org: "${organization}"`);
 
             if (organization) {
@@ -52,7 +50,7 @@ export default async function addQuery(context: ExtensionContext) {
 
                     if (tempOrganization) {
                         organization = tempOrganization;
-                    } else { 
+                    } else {
                         throw new Error("Please provide an organization name");
                     }
                 }
@@ -66,28 +64,11 @@ export default async function addQuery(context: ExtensionContext) {
                     };
                 });
 
-                const projectQuickPickItem = await window.showQuickPick(options, { placeHolder: "Select the project"});
+                const projectQuickPickItem = await window.showQuickPick(options, { placeHolder: "Select the project" });
                 const project = projectQuickPickItem?.label;
 
                 if (project) {
-                    const queryId = await window.showInputBox({
-                        prompt: "Insert your query ID (take it from the URL)"
-                    });
-
-                    if (queryId) {
-                        const queryName = await window.showInputBox({
-                            prompt: "Insert an alias for this query",
-                            placeHolder: queryId
-                        });
-
-                        queryPath.organization = organization;
-                        queryPath.project = project;
-                        queryPath.queryId = queryId;
-                        queryPath.queryName = queryName;
-                        
-                    } else {
-                        throw new Error("Please provide Query Id")
-                    }
+                    handleProject(queryPath, organization, project, queries, context);
                 }
             }
         }
@@ -122,4 +103,31 @@ async function retrieveProjects(organization: string, pat: string): Promise<Arra
 
     const response = await axios.get(`https://dev.azure.com/${organization}/_apis/projects`, options);
     return response.data.value;
+}
+
+async function handleProject(queryPath: QueryConfiguration, organization: string, project: string, queries: QueryConfiguration[], context: ExtensionContext) {
+    const queryId = await window.showInputBox({
+        prompt: "Insert your query ID (take it from the URL)"
+    });
+
+    if (queryId) {
+        const queryName = await window.showInputBox({
+            prompt: "Insert an alias for this query",
+            placeHolder: queryId
+        });
+
+        if (queryName) {
+            queryPath.organization = organization;
+            queryPath.project = project;
+            queryPath.queryId = queryId;
+            queryPath.queryName = queryName;
+
+            queries.push(queryPath);
+            context.workspaceState.update("queries", _.uniqBy(queries, (e: QueryConfiguration) => { return JSON.stringify(e); }));
+        } else {
+            throw new Error("Please provide an alias for this query");
+        }
+    } else {
+        throw new Error("Please provide Query Id");
+    }
 }
