@@ -21,22 +21,24 @@ async function setPAT(context: ExtensionContext) {
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
+  const queryTreeDataProvider: QueryTreeDataProvider = new QueryTreeDataProvider(context);
+
 	const addQueryCommand = commands.registerCommand("azure-boards.addQuery", () => addQuery(context));
 	const deleteQueryCommand = commands.registerCommand("azure-boards.deleteQuery", () => deleteQuery(context));
 	const openMenuCommand = commands.registerCommand("azure-boards.openMenu", openMenu);
 	const runQueryCommand = commands.registerCommand("azure-boards.runQuery", () => runQuery(context));
-	const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
+  const refreshTreeCommand = commands.registerCommand('azure-boards.refreshQueries', () => queryTreeDataProvider.refresh());
+  const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
 
 	context.subscriptions.push(addQueryCommand);
 	context.subscriptions.push(deleteQueryCommand);
 	context.subscriptions.push(openMenuCommand);
 	context.subscriptions.push(runQueryCommand);
+	context.subscriptions.push(refreshTreeCommand);
 	context.subscriptions.push(setPATCommand);
 
-	window.registerTreeDataProvider('azure-boards.queryExplorer', new QueryTreeDataProvider("Azure DevOps"));
+	window.registerTreeDataProvider('DevOpsExplorer', queryTreeDataProvider);
 }
-
-
 
 // this method is called when your extension is deactivated
 export function deactivate() { }
