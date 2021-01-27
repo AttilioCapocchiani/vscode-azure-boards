@@ -1,68 +1,90 @@
 {
-	"name": "azure-boards",
-	"displayName": "Azure Boards",
-	"description": "A simple VSCode Extension to quickly access your favourite boards on Visual Studio Code",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.52.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"*"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "azure-boards.addQuery",
-				"title": "Azure Boards: Add Query"
-			},
-			{
-				"command": "azure-boards.openMenu",
-				"title": "Azure Boards: Open Menu"
-			},
-			{
-				"command": "azure-boards.runQuery",
-				"title": "Azure Boards: Run Query"
-			}
-		],
-		"views": {
-			"explorer": [
-				{
-					"type": "webview",
-					"id": "azure-boards.runQueryView",
-					"name": "Azure Boards: Query Results"
-				}
-			]
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "npm run compile && npm run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.3",
-		"@types/lodash": "^4.14.168",
-		"@types/mocha": "^8.0.4",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.52.0",
-		"@typescript-eslint/eslint-plugin": "^4.9.0",
-		"@typescript-eslint/parser": "^4.9.0",
-		"eslint": "^7.15.0",
-		"glob": "^7.1.6",
-		"mocha": "^8.1.3",
-		"typescript": "^4.1.2",
-		"vscode-test": "^1.4.1"
-	},
-	"dependencies": {
-		"axios": "^0.21.1",
-		"lodash": "^4.17.20",
-		"moment": "^2.29.1"
-	}
+  "name": "azure-boards",
+  "displayName": "Azure Boards",
+  "description": "A simple VSCode Extension to quickly access your favourite boards on Visual Studio Code",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.52.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "azure-boards.addQuery",
+        "title": "Azure Boards: Add Query"
+      },
+      {
+        "command": "azure-boards.openMenu",
+        "title": "Azure Boards: Open Menu"
+      },
+      {
+        "command": "azure-boards.runQuery",
+        "title": "Azure Boards: Run Query"
+      },
+      {
+        "command": "azure-boards.refreshQueries",
+        "title": "Azure Boards: Refresh query"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "azure-boards.refreshQueries",
+          "when": "view == DevOpsExplorer",
+          "group": "navigation"
+        }
+      ]
+    },
+    "views": {
+      "DevOpsExplorer": [
+        {
+          "id": "DevOpsExplorer",
+          "name": "DevOps Explorer",
+          "icon": "media/DevOps.svg"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "DevOpsExplorer",
+          "title": "DevOps Explorer",
+          "icon": "media/DevOps.svg"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/lodash": "^4.14.168",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.52.0",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.15.0",
+    "glob": "^7.1.6",
+    "mocha": "^8.1.3",
+    "typescript": "^4.1.2",
+    "vscode-test": "^1.4.1"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1"
+  }
 }
