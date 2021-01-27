@@ -32,7 +32,7 @@ export default async function addQuery(context: ExtensionContext) {
                 });
 
                 const projectQuickPickItem = await window.showQuickPick(options, { placeHolder: "Select the project" });
-                const project = projectQuickPickItem?.label;
+                const project = projectQuickPickItem ? projectQuickPickItem.label : "";
                 if (project) {
                     handleProject(queryPath, organization, project, queries, context);
                 }
@@ -65,7 +65,7 @@ export default async function addQuery(context: ExtensionContext) {
                 });
 
                 const projectQuickPickItem = await window.showQuickPick(options, { placeHolder: "Select the project" });
-                const project = projectQuickPickItem?.label;
+                const project = projectQuickPickItem ? projectQuickPickItem.label : "";
 
                 if (project) {
                     handleProject(queryPath, organization, project, queries, context);
