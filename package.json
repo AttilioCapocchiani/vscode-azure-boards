@@ -20,12 +20,12 @@
 				"title": "Azure Boards: Add Query"
 			},
 			{
-				"command": "azure-boards.runQuery",
-				"title": "Azure Boards: Run Query"
+				"command": "azure-boards.openMenu",
+				"title": "Azure Boards: Open Menu"
 			},
 			{
-				"command": "azure-boards.setPAT",
-				"title": "Azure Boards: Setup Personal Access Token"
+				"command": "azure-boards.runQuery",
+				"title": "Azure Boards: Run Query"
 			}
 		],
 		"views": {
