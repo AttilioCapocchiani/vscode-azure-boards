@@ -3,6 +3,7 @@
 import { window, commands, ExtensionContext } from "vscode";
 
 import addQuery from "./commands/addQuery";
+import deleteQuery from "./commands/deleteQuery";
 import openMenu from "./commands/openMenu";
 import runQuery from "./commands/runQuery";
 
@@ -19,11 +20,13 @@ async function setPAT(context: ExtensionContext) {
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
 	const addQueryCommand = commands.registerCommand("azure-boards.addQuery", () => addQuery(context));
+	const deleteQueryCommand = commands.registerCommand("azure-boards.deleteQuery", () => deleteQuery(context));
 	const openMenuCommand = commands.registerCommand("azure-boards.openMenu", openMenu);
 	const runQueryCommand = commands.registerCommand("azure-boards.runQuery", () => runQuery(context));
 	const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
 
 	context.subscriptions.push(addQueryCommand);
+	context.subscriptions.push(deleteQueryCommand);
 	context.subscriptions.push(openMenuCommand);
 	context.subscriptions.push(runQueryCommand);
 	context.subscriptions.push(setPATCommand);
