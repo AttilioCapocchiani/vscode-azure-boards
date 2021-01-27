@@ -7,6 +7,8 @@ import deleteQuery from "./commands/deleteQuery";
 import openMenu from "./commands/openMenu";
 import runQuery from "./commands/runQuery";
 
+import QueryTreeDataProvider from "./dataProviders/treeDataProviders/QueryTreeDataProvider";
+
 async function setPAT(context: ExtensionContext) {
 	const PAT = await window.showInputBox({
 		prompt: "Enter your Personal Access Token"
@@ -30,6 +32,8 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(openMenuCommand);
 	context.subscriptions.push(runQueryCommand);
 	context.subscriptions.push(setPATCommand);
+
+	window.registerTreeDataProvider('azure-boards.queryExplorer', new QueryTreeDataProvider("Azure DevOps"));
 }
 
 

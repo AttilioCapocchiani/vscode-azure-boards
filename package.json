@@ -31,9 +31,17 @@
 		"views": {
 			"explorer": [
 				{
-					"type": "webview",
-					"id": "azure-boards.runQueryView",
-					"name": "Azure Boards: Query Results"
+				"id": "azure-boards.queryExplorer",
+				"name": "Azure DevOps Explorer"
+				}
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "DevOpsExplorer",
+					"title": "Azure Boards: Query Explorer",
+					"icon": "media/DevOps.svg"
 				}
 			]
 		}
