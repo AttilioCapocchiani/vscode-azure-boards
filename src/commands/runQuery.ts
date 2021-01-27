@@ -61,9 +61,9 @@ function mapWorkItem(workItem: any): any {
         state: workItem.fields["System.State"],
         reason: workItem.fields["System.Reason"],
         assignedTo: workItem.fields["System.AssignedTo"].displayName,
-        createdDate: moment(workItem.fields["System.CreatedDate"]).format('DD/MM/yyyy HH:mm:sss'),
+        createdDate: moment(workItem.fields["System.CreatedDate"]).format('DD/MM/yyyy HH:mm:ss'),
         createdBy: workItem.fields["System.CreatedBy"].displayName,
-        changedDate: moment(workItem.fields["System.ChangedDate"]).format('DD/MM/yyyy HH:mm:sss'),
+        changedDate: moment(workItem.fields["System.ChangedDate"]).format('DD/MM/yyyy HH:mm:ss'),
         changedBy: workItem.fields["System.ChangedBy"].displayName
     };
 }
@@ -71,8 +71,19 @@ function mapWorkItem(workItem: any): any {
 function getWebviewContent(rows: any[], organization: string, project: string) {
     return `<!DOCTYPE html>
     <html lang="en">
+    <head>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+            th, td {
+                padding: 15px;
+                text-align: left;
+            }
+        </style>
+    </head>
     <body>
-        <table style="border: 1">
+        <table>
             <thead>
                 <th>Id</th>
                 <th>Work Item Type</th>
