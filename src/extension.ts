@@ -6,8 +6,9 @@ import addQuery from "./commands/addQuery";
 import deleteQuery from "./commands/deleteQuery";
 import openMenu from "./commands/openMenu";
 import runQuery from "./commands/runQuery";
+import openWorkItemDetail from "./commands/workItemDetail";
 
-import QueryTreeDataProvider from "./dataProviders/treeDataProviders/QueryTreeDataProvider";
+import { QueryTreeDataProvider, TreeItemEntry } from "./dataProviders/treeDataProviders/QueryTreeDataProvider";
 
 async function setPAT(context: ExtensionContext) {
 	const PAT = await window.showInputBox({
@@ -23,19 +24,22 @@ async function setPAT(context: ExtensionContext) {
 export function activate(context: ExtensionContext) {
   const queryTreeDataProvider: QueryTreeDataProvider = new QueryTreeDataProvider(context);
 
+
 	const addQueryCommand = commands.registerCommand("azure-boards.addQuery", () => addQuery(context));
 	const deleteQueryCommand = commands.registerCommand("azure-boards.deleteQuery", () => deleteQuery(context));
 	const openMenuCommand = commands.registerCommand("azure-boards.openMenu", openMenu);
-	const runQueryCommand = commands.registerCommand("azure-boards.runQuery", () => runQuery(context));
+  const runQueryCommand = commands.registerCommand("azure-boards.runQuery", () => runQuery(context));
   const refreshTreeCommand = commands.registerCommand('azure-boards.refreshQueries', () => queryTreeDataProvider.refresh());
   const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
-
+  const workItemDetailCommand = commands.registerCommand("azure-boards.workItemDetail", (workItem: TreeItemEntry) => openWorkItemDetail(workItem));
+  
 	context.subscriptions.push(addQueryCommand);
 	context.subscriptions.push(deleteQueryCommand);
 	context.subscriptions.push(openMenuCommand);
-	context.subscriptions.push(runQueryCommand);
 	context.subscriptions.push(refreshTreeCommand);
-	context.subscriptions.push(setPATCommand);
+  context.subscriptions.push(runQueryCommand);
+  context.subscriptions.push(setPATCommand);
+  context.subscriptions.push(workItemDetailCommand);
 
 	window.registerTreeDataProvider('DevOpsExplorer', queryTreeDataProvider);
 }

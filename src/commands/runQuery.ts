@@ -78,7 +78,7 @@ function getWebviewContent(rows: WorkItem[], organization: string, project: stri
                     <td>${row.createdBy}</td>
                     <td>${row.changedDate}</td>
                     <td>${row.changedBy}</td>
-                </tr>`)}
+                </tr>`).join("")}
               </tbody>
           </table>
       </body>

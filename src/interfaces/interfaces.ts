@@ -22,4 +22,5 @@ export interface WorkItem {
   state: string
   title: string
   workItemType: string
+  originalObject: any
 }

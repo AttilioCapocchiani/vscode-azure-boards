@@ -3,7 +3,7 @@ import * as path from "path";
 import * as u from "../../utils/utils";
 import { QueryConfiguration, WorkItem } from "../../interfaces/interfaces";
 
-export default class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEntry> {
+export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEntry> {
   private _onDidChangeTreeData: vscode.EventEmitter<TreeItemEntry | undefined | null | void> = new vscode.EventEmitter<TreeItemEntry | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<TreeItemEntry | undefined | null | void> = this._onDidChangeTreeData.event;
 
@@ -36,23 +36,21 @@ export default class QueryTreeDataProvider implements vscode.TreeDataProvider<Tr
             if ("organization" in element.wrapper) {
               const workItems: WorkItem[] = await u.runQuery(element.wrapper.organization, element.wrapper.project, element.wrapper.queryId, this.context, "");
               return workItems.map((workItem: WorkItem) => {
-                return new TreeItemEntry(`${workItem.workItemType} #${workItem.id}: ${workItem.title}`, `${workItem.state} - ${workItem.assignedTo}`, "WorkItem", vscode.TreeItemCollapsibleState.Collapsed, workItem);
+                return new TreeItemEntry(`${workItem.workItemType} #${workItem.id}: ${workItem.title}`, `${workItem.state} - ${workItem.assignedTo}`, "WorkItem", vscode.TreeItemCollapsibleState.None, workItem);
               });
+            } else {
+              return Promise.resolve([]);
             }
-            // return Promise.resolve();
-            return Promise.resolve([]);
-          } else {
-            return Promise.resolve([]);
           }
-        case "WorkItem": 
+          return Promise.resolve([]);
+        case "WorkItem":
           if (element.wrapper) {
             return Object.entries(element.wrapper)
               .map((entry: [string, any]) => {
                 return new TreeItemEntry(`${u.camelCaseToSentenceCase(entry[0])} - ${entry[1]}`, "", "WorkItemField", vscode.TreeItemCollapsibleState.None);
               });
-          } else {
-            return Promise.resolve([]);
           }
+          return Promise.resolve([]);
         default:
           return Promise.resolve([]);
       }
@@ -67,7 +65,7 @@ export default class QueryTreeDataProvider implements vscode.TreeDataProvider<Tr
   }
 }
 
-class TreeItemEntry extends vscode.TreeItem {
+export class TreeItemEntry extends vscode.TreeItem {
   constructor(
     public readonly label: string,
     public readonly description: string,
@@ -79,6 +77,7 @@ class TreeItemEntry extends vscode.TreeItem {
     this.tooltip = this.label;
     this.description = description;
     this.wrapper = wrapper;
+    this.contextValue = type;
   }
 
   iconPath = {

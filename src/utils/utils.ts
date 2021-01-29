@@ -22,7 +22,7 @@ export async function runQuery(organization: string, project: string, queryId: s
 }
 
 export function camelCaseToSentenceCase(word: string): string {
-  const result = word.replace( /([A-Z])/g, " $1" );
+  const result = word.replace(/([A-Z])/g, " $1");
   return result.charAt(0).toUpperCase() + result.slice(1);
 }
 
@@ -37,6 +37,7 @@ function mapWorkItem(workItem: any): WorkItem {
     reason: workItem.fields["System.Reason"],
     state: workItem.fields["System.State"],
     title: workItem.fields["System.Title"],
-    workItemType: workItem.fields["System.WorkItemType"]
+    workItemType: workItem.fields["System.WorkItemType"],
+    originalObject: workItem
   };
 }
