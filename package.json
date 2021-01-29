@@ -29,7 +29,19 @@
       },
       {
         "command": "azure-boards.refreshQueries",
-        "title": "Azure Boards: Refresh query"
+        "title": "Azure Boards: Refresh query",
+        "icon": {
+          "light": "media/light/reload.svg",
+          "dark": "media/dark/reload.svg"
+        }
+      },
+      {
+        "command": "azure-boards.workItemDetail",
+        "title": "Detail",
+        "icon": {
+          "light": "media/light/search.svg",
+          "dark": "media/dark/search.svg"
+        }
       }
     ],
     "menus": {
@@ -38,6 +50,13 @@
           "command": "azure-boards.refreshQueries",
           "when": "view == DevOpsExplorer",
           "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "azure-boards.workItemDetail",
+          "when": "view == DevOpsExplorer && viewItem == WorkItem",
+          "group": "inline"
         }
       ]
     },
