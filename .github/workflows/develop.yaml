@@ -1,7 +1,7 @@
-on:
-  push:
+on: 
+  pull_request:
     branches:
-      - feature/ci
+      - develop
 
 jobs:
   build:
@@ -21,3 +21,11 @@ jobs:
       if: runner.os == 'Linux'
     - run: npm test
       if: runner.os != 'Linux'
+    - name: Merge by labeled
+      uses: devmasx/merge-branch@v1.3.1
+      with:
+        label_name: 'merged in develop'
+        target_branch: 'develop'
+        github_token: ${{ github.token }}
+      env:
+        github.token: ccacbe3fec44293631c1ce5634f354ac7ed45316
