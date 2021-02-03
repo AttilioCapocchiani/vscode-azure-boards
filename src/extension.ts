@@ -2,7 +2,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import { window, commands, ExtensionContext } from "vscode";
 
+import addProject from "./commands/addProject";
 import addQuery from "./commands/addQuery";
+import buildDetail from "./commands/buildDetail";
 import deleteQuery from "./commands/deleteQuery";
 import openMenu from "./commands/openMenu";
 import runQuery from "./commands/runQuery";
@@ -26,14 +28,16 @@ export function activate(context: ExtensionContext) {
 
 
 	const addQueryCommand = commands.registerCommand("azure-boards.addQuery", () => addQuery(context));
-	const deleteQueryCommand = commands.registerCommand("azure-boards.deleteQuery", () => deleteQuery(context));
+  const buildDetailCommand = commands.registerCommand("azure-boards.buildDetail", (build: TreeItemEntry) => buildDetail(build));
+	const deleteQueryCommand = commands.registerCommand("azure-boards.deleteQuery", () => addProject(context));
 	const openMenuCommand = commands.registerCommand("azure-boards.openMenu", openMenu);
   const runQueryCommand = commands.registerCommand("azure-boards.runQuery", () => runQuery(context));
   const refreshTreeCommand = commands.registerCommand('azure-boards.refreshQueries', () => queryTreeDataProvider.refresh());
   const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
   const workItemDetailCommand = commands.registerCommand("azure-boards.workItemDetail", (workItem: TreeItemEntry) => openWorkItemDetail(workItem));
   
-	context.subscriptions.push(addQueryCommand);
+	context.subscriptions.push(addQueryCommand); 
+	context.subscriptions.push(buildDetailCommand); 
 	context.subscriptions.push(deleteQueryCommand);
 	context.subscriptions.push(openMenuCommand);
 	context.subscriptions.push(refreshTreeCommand);

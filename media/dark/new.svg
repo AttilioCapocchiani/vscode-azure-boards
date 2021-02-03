@@ -1,0 +1,10 @@
+<svg><circle id="my-circle" r="30" cx="50" cy="50" fill="orange" />
+
+  <animate 
+    xlink:href="#my-circle"
+    attributeName="cx"
+    from="50"
+    to="450" 
+    dur="1s"
+    begin="click"
+    fill="freeze" /></svg>
