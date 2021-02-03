@@ -22,5 +22,4 @@ jobs:
         type: now
         target_branch: 'develop'
         github_token: ${{ github.token }}
-      env:
-        github.token: ccacbe3fec44293631c1ce5634f354ac7ed45316
+      
