@@ -1,3 +1,14 @@
+export interface Build {
+  id: number
+  status: string
+  result: string
+  startTime: string
+  finishTime: string
+  originalObject: any
+  requestedFor: string
+  repositoryName: string
+}
+
 export interface Command {
   command: string
   detail: string

@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as moment from "moment";
-import { WorkItem } from "../interfaces/interfaces";
+import { Build, WorkItem } from "../interfaces/interfaces";
 import axios from "axios";
 
 export async function runQuery(organization: string, project: string, queryId: string, context: vscode.ExtensionContext, pat?: string): Promise<WorkItem[]> {
@@ -19,6 +19,36 @@ export async function runQuery(organization: string, project: string, queryId: s
   const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${workItems}&api-version=6.1-preview.3`, options);
 
   return detailResponse.data.value.map(mapWorkItem);
+}
+
+export async function getLastBuilds (organization: string, project: string, context: vscode.ExtensionContext, pat?: string): Promise<Build[]> {
+  if (!pat) {
+    pat = context.workspaceState.get("encryptedPAT", "");
+  }
+
+  const options = {
+    headers: {
+      "Authorization": `Basic ${pat}`
+    }
+  };
+
+  vscode.window.showInformationMessage(`https://dev.azure.com/${organization}/${project}/_apis/build/builds?api-version=6.0`);
+
+  const response = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/build/builds?api-version=6.0`, options);
+  const builds: Build[] = response.data.value.map((build: any): Build => {
+    return {
+      id: build.id,
+      status: build.status,
+      result: build.result,
+      startTime: build.startTime,
+      finishTime: build.finishTime,
+      originalObject: build,
+      requestedFor: build.requestedFor.displayName,
+      repositoryName: build.repository.name
+    };
+  });
+
+  return builds;
 }
 
 export function camelCaseToSentenceCase(word: string): string {
