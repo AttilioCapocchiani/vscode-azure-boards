@@ -42,6 +42,14 @@
           "light": "media/light/search.svg",
           "dark": "media/dark/search.svg"
         }
+      },
+      {
+        "command": "azure-boards.buildDetail",
+        "title": "Detail",
+        "icon": {
+          "light": "media/light/search.svg",
+          "dark": "media/dark/search.svg"
+        }
       }
     ],
     "menus": {
@@ -56,6 +64,11 @@
         {
           "command": "azure-boards.workItemDetail",
           "when": "view == DevOpsExplorer && viewItem == WorkItem",
+          "group": "inline"
+        },
+        {
+          "command": "azure-boards.buildDetail",
+          "when": "view == DevOpsExplorer && viewItem == Build",
           "group": "inline"
         }
       ]
