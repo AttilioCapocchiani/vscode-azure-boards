@@ -17,11 +17,9 @@ jobs:
     - run: npm run compile
       if: runner.os == 'Linux'
     - name: Merge into develop
-      uses: Goobles/gh-actions-merge-command@v1
+      uses: devmasx/merge-branch@v1.3.1
       with:
-        user_name: Attilio Capocchiani
-        user_email: attilio.capocchiani@gmail.com
-        allow_ff: true
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+        type: now
+        target_branch: 'develop'
+        github_token: ${{ github.token }}
       
