@@ -9,6 +9,7 @@ import deleteQuery from "./commands/deleteQuery";
 import openMenu from "./commands/openMenu";
 import runQuery from "./commands/runQuery";
 import openWorkItemDetail from "./commands/workItemDetail";
+import openSettings from "./commands/settings/openSettings";
 
 import { QueryTreeDataProvider, TreeItemEntry } from "./dataProviders/treeDataProviders/QueryTreeDataProvider";
 
@@ -27,14 +28,15 @@ export function activate(context: ExtensionContext) {
   const queryTreeDataProvider: QueryTreeDataProvider = new QueryTreeDataProvider(context);
 
 
-	const addQueryCommand = commands.registerCommand("azure-boards.addQuery", () => addQuery(context));
-  const buildDetailCommand = commands.registerCommand("azure-boards.buildDetail", (build: TreeItemEntry) => buildDetail(build));
-	const deleteQueryCommand = commands.registerCommand("azure-boards.deleteQuery", () => addProject(context));
-	const openMenuCommand = commands.registerCommand("azure-boards.openMenu", openMenu);
-  const runQueryCommand = commands.registerCommand("azure-boards.runQuery", () => runQuery(context));
-  const refreshTreeCommand = commands.registerCommand('azure-boards.refreshQueries', () => queryTreeDataProvider.refresh());
-  const setPATCommand = commands.registerCommand("azure-boards.setPAT", () => setPAT(context));
-  const workItemDetailCommand = commands.registerCommand("azure-boards.workItemDetail", (workItem: TreeItemEntry) => openWorkItemDetail(workItem));
+	const addQueryCommand = commands.registerCommand("devops-explorer.addQuery", () => addQuery(context));
+  const buildDetailCommand = commands.registerCommand("devops-explorer.buildDetail", (build: TreeItemEntry) => buildDetail(build));
+	const deleteQueryCommand = commands.registerCommand("devops-explorer.deleteQuery", () => addProject(context));
+	const openMenuCommand = commands.registerCommand("devops-explorer.openMenu", openMenu);
+  const runQueryCommand = commands.registerCommand("devops-explorer.runQuery", () => runQuery(context));
+  const refreshTreeCommand = commands.registerCommand('devops-explorer.refreshQueries', () => queryTreeDataProvider.refresh());
+  const setPATCommand = commands.registerCommand("devops-explorer.setPAT", () => setPAT(context));
+  const workItemDetailCommand = commands.registerCommand("devops-explorer.workItemDetail", (workItem: TreeItemEntry) => openWorkItemDetail(workItem));
+  const openSettingsCommand = commands.registerCommand("devops-explorer.openSettings", () => openSettings());
   
 	context.subscriptions.push(addQueryCommand); 
 	context.subscriptions.push(buildDetailCommand); 
@@ -44,6 +46,7 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(runQueryCommand);
   context.subscriptions.push(setPATCommand);
   context.subscriptions.push(workItemDetailCommand);
+  context.subscriptions.push(openSettingsCommand);
 
 	window.registerTreeDataProvider('DevOpsExplorer', queryTreeDataProvider);
 }

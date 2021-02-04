@@ -123,7 +123,7 @@ async function handleProject(queryPath: QueryConfiguration, organization: string
 
       queries.push(queryPath);
       context.workspaceState.update("queries", _.uniqBy(queries, (e: QueryConfiguration) => { return JSON.stringify(e); }));
-      commands.executeCommand("azure-boards.refreshQueries");
+      commands.executeCommand("devops-explorer.refreshQueries");
     } else {
       throw new Error("Please provide an alias for this query");
     }
