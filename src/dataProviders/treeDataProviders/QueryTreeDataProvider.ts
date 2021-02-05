@@ -102,10 +102,10 @@ export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEn
       
       const tree: TreeItemEntry[] = [];
       if (buildViewStatus === "VISIBLE") {
-        tree.push(new TreeItemEntry("Queries", "", "QueryRoot", vscode.TreeItemCollapsibleState.Collapsed));
+        tree.push(new TreeItemEntry("Builds", "", "BuildsRoot", vscode.TreeItemCollapsibleState.Collapsed));
       }
       if (queryViewStatus === "VISIBLE") {
-        tree.push(new TreeItemEntry("Builds", "", "BuildsRoot", vscode.TreeItemCollapsibleState.Collapsed));
+        tree.push(new TreeItemEntry("Queries", "", "QueryRoot", vscode.TreeItemCollapsibleState.Collapsed));
       }
       return Promise.resolve(tree);
     }
