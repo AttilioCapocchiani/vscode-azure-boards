@@ -12,8 +12,9 @@ export interface Build {
 export interface Command {
   command: string
   detail: string
-  icon: string
+  icon?: string
   label: string
+  show?: string
 }
 export interface QueryConfiguration {
   organization: string

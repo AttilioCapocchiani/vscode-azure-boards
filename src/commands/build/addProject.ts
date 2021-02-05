@@ -1,40 +1,38 @@
-import * as _ from 'lodash';
 import axios from 'axios';
 import { ExtensionContext, QuickPickItem, commands, window } from 'vscode';
-import { QueryConfiguration } from '../interfaces/interfaces';
 
-export default async function addQuery(context: ExtensionContext) {
-  const queryPath: QueryConfiguration = {
-    organization: '',
-    project: '',
-    queryId: '',
-    queryName: ''
-  };
-
+export default async function addProject(context: ExtensionContext) {
   const pat: string = context.workspaceState.get("encryptedPAT", "");
+  context.workspaceState.update("projects", []);
 
   if (pat) {
     const listJSON = context.workspaceState.get("organizations", []);
-    const queries: Array<QueryConfiguration> = context.workspaceState.get("queries", []);
+    const projectsArray: Array<string> = context.workspaceState.get("projects", []);
+    window.showInformationMessage(projectsArray.join(','));
     const list: Set<string> = new Set(Array.from(listJSON));
+    let projects: Set<string> = new Set(projectsArray);
 
     if (!list.size) {
       const organization = await askForOrganization(list, context);
 
       if (organization) {
-        const projects = await retrieveProjects(organization, pat);
+        const projectsInOrg = await retrieveProjects(organization, pat);
 
-        const options: Array<QuickPickItem> = projects.map((p: any) => {
-          return {
-            label: p.name,
-            detail: p.description
-          };
-        });
+        const options: Array<QuickPickItem> =
+          projectsInOrg
+            .filter((p: any) => !projects.has(`${organization}|${p.name}`))
+            .map((p: any) => {
+              return {
+                label: p.name,
+                detail: p.description
+              };
+            });
 
         const projectQuickPickItem = await window.showQuickPick(options, { placeHolder: "Select the project" });
         const project = projectQuickPickItem ? projectQuickPickItem.label : "";
         if (project) {
-          handleProject(queryPath, organization, project, queries, context);
+          projects.add(`${organization}/${project}`);
+          context.workspaceState.update("projects", Array.from(projects));
         }
       } else {
         throw new Error("Please provide an organization name");
@@ -54,23 +52,28 @@ export default async function addQuery(context: ExtensionContext) {
           }
         }
 
-        const projects = await retrieveProjects(organization, pat);
+        const projectsInOrg = await retrieveProjects(organization, pat);
 
-        const options: Array<QuickPickItem> = projects.map((p: any) => {
-          return {
-            label: p.name,
-            detail: p.description
-          };
-        });
+        const options: Array<QuickPickItem> =
+          projectsInOrg
+            .filter((p: any) => !projects.has(p.name))
+            .map((p: any) => {
+              return {
+                label: p.name,
+                detail: p.description
+              };
+            });
 
         const projectQuickPickItem = await window.showQuickPick(options, { placeHolder: "Select the project" });
         const project = projectQuickPickItem ? projectQuickPickItem.label : "";
-
         if (project) {
-          handleProject(queryPath, organization, project, queries, context);
+          projects.add(`${organization}/${project}`);
+          context.workspaceState.update("projects", Array.from(projects));
         }
       }
     }
+
+    commands.executeCommand("devops-explorer.refreshTreeView");
   } else {
     window.showErrorMessage("PAT not found. Run Setup Personal Access Token");
   }
@@ -102,32 +105,4 @@ async function retrieveProjects(organization: string, pat: string): Promise<Arra
 
   const response = await axios.get(`https://dev.azure.com/${organization}/_apis/projects`, options);
   return response.data.value;
-}
-
-async function handleProject(queryPath: QueryConfiguration, organization: string, project: string, queries: QueryConfiguration[], context: ExtensionContext) {
-  const queryId = await window.showInputBox({
-    prompt: "Insert your query ID (take it from the URL)"
-  });
-
-  if (queryId) {
-    const queryName = await window.showInputBox({
-      prompt: "Insert an alias for this query",
-      placeHolder: queryId
-    });
-
-    if (queryName) {
-      queryPath.organization = organization;
-      queryPath.project = project;
-      queryPath.queryId = queryId;
-      queryPath.queryName = queryName;
-
-      queries.push(queryPath);
-      context.workspaceState.update("queries", _.uniqBy(queries, (e: QueryConfiguration) => { return JSON.stringify(e); }));
-      commands.executeCommand("azure-boards.refreshQueries");
-    } else {
-      throw new Error("Please provide an alias for this query");
-    }
-  } else {
-    throw new Error("Please provide Query Id");
-  }
 }

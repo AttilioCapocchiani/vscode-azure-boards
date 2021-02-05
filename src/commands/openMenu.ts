@@ -3,29 +3,47 @@ import { Command } from "../interfaces/interfaces";
 
 const menuCommands: Command[] = [
   {
-    label: "Add new Query...",
-    command: "azure-boards.addQuery",
-    detail: "Stores a new query",
-    icon: "plus"
-  },
+    label: "Query Settings...",
+    command: "devops-explorer.querySettings",
+    detail: "Manage query settings",
+    icon: "three-bars"
+  }, 
   {
-    label: "Run Query...",
-    command: "azure-boards.runQuery",
-    detail: "Runs an already saved query",
-    icon: "play"
-  },
+    label: "Build Settings...",
+    command: "devops-explorer.buildSettings",
+    detail: "Manage build settings",
+    icon: "wrench"
+  }, 
   {
-    label: "Delete saved Query",
-    command: "azure-boards.deleteQuery",
-    detail: "Deletes an already saved query",
-    icon: "trash"
-  },
-  {
-    label: "Replace Personal Access Token...",
-    command: "azure-boards.setPAT",
-    detail: "Replaces currently saved Personal Access Token",
+    label: "Settings...",
+    command: "devops-explorer.openSettings",
+    detail: "Other settings",
     icon: "gear"
   }
+  // {
+  //   label: "Add new Query...",
+  //   command: "devops-explorer.addQuery",
+  //   detail: "Stores a new query",
+  //   icon: "plus"
+  // },
+  // {
+  //   label: "Run Query...",
+  //   command: "devops-explorer.runQuery",
+  //   detail: "Runs an already saved query",
+  //   icon: "play"
+  // },
+  // {
+  //   label: "Delete saved Query",
+  //   command: "devops-explorer.deleteQuery",
+  //   detail: "Deletes an already saved query",
+  //   icon: "trash"
+  // },
+  // {
+  //   label: "Replace Personal Access Token...",
+  //   command: "devops-explorer.setPAT",
+  //   detail: "Replaces currently saved Personal Access Token",
+  //   icon: "gear"
+  // }
 ];
 
 export default async function openMenu() {
