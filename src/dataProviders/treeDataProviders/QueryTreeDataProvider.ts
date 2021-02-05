@@ -31,11 +31,10 @@ export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEn
               return new TreeItemEntry(project, "", "Project", vscode.TreeItemCollapsibleState.Collapsed, project);
             }));
           }
-          // await u.getLastBuilds('DCM-IT-CON-TEL', "DCM-IT-DTTL-FCA-MAT-EVO", this.context);
           return Promise.resolve([]);
         case "Project":
           if (element.wrapper) {
-            const [organization, project] = (element.wrapper as string).split('/');
+            const [organization, project] = (element.wrapper as string).split("/");
             const builds: Build[] = await u.getLastBuilds(organization, project, this.context);
 
             return Promise.resolve(builds.map((build: Build) => {
@@ -98,13 +97,17 @@ export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEn
           return Promise.resolve([]);
       }
     } else {
-      return Promise.resolve(
-        [
-          new TreeItemEntry("Queries", "", "QueryRoot", vscode.TreeItemCollapsibleState.Collapsed),
-          // new TreeItemEntry("Pipelines", "", "PipelineRoot", vscode.TreeItemCollapsibleState.Collapsed),
-          new TreeItemEntry("Builds", "", "BuildsRoot", vscode.TreeItemCollapsibleState.Collapsed),
-        ]
-      );
+      const buildViewStatus: string = this.context.workspaceState.get("BUILD_VIEW_STATUS", "HIDDEN");
+      const queryViewStatus: string = this.context.workspaceState.get("QUERY_VIEW_STATUS", "HIDDEN");
+      
+      const tree: TreeItemEntry[] = [];
+      if (buildViewStatus === "VISIBLE") {
+        tree.push(new TreeItemEntry("Queries", "", "QueryRoot", vscode.TreeItemCollapsibleState.Collapsed));
+      }
+      if (queryViewStatus === "VISIBLE") {
+        tree.push(new TreeItemEntry("Builds", "", "BuildsRoot", vscode.TreeItemCollapsibleState.Collapsed));
+      }
+      return Promise.resolve(tree);
     }
   }
 }

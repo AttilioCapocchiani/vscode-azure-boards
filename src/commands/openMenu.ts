@@ -3,13 +3,13 @@ import { Command } from "../interfaces/interfaces";
 
 const menuCommands: Command[] = [
   {
-    label: "Queries...",
+    label: "Query Settings...",
     command: "devops-explorer.querySettings",
     detail: "Manage query settings",
     icon: "three-bars"
   }, 
   {
-    label: "Builds...",
+    label: "Build Settings...",
     command: "devops-explorer.buildSettings",
     detail: "Manage build settings",
     icon: "wrench"

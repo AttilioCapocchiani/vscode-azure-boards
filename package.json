@@ -28,7 +28,7 @@
         "title": "Azure Boards: Run Query"
       },
       {
-        "command": "devops-explorer.refreshQueries",
+        "command": "devops-explorer.refreshTreeView",
         "title": "Azure Boards: Refresh query",
         "icon": {
           "light": "media/light/reload.svg",
@@ -55,7 +55,7 @@
     "menus": {
       "view/title": [
         {
-          "command": "devops-explorer.refreshQueries",
+          "command": "devops-explorer.refreshTreeView",
           "when": "view == DevOpsExplorer",
           "group": "navigation"
         }

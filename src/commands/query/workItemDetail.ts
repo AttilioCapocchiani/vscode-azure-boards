@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import { ViewColumn, window } from "vscode";
-import { TreeItemEntry } from "../dataProviders/treeDataProviders/QueryTreeDataProvider";
-import { WorkItem } from "../interfaces/interfaces";
+import { TreeItemEntry } from "../../dataProviders/treeDataProviders/QueryTreeDataProvider";
+import { WorkItem } from "../../interfaces/interfaces";
 
 export default async function openWorkItemDetail(workItem: TreeItemEntry) {
   console.log(workItem);

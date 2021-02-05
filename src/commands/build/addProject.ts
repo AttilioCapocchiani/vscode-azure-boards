@@ -73,7 +73,7 @@ export default async function addProject(context: ExtensionContext) {
       }
     }
 
-    commands.executeCommand("devops-explorer.refreshQueries");
+    commands.executeCommand("devops-explorer.refreshTreeView");
   } else {
     window.showErrorMessage("PAT not found. Run Setup Personal Access Token");
   }

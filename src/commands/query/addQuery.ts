@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import axios from 'axios';
 import { ExtensionContext, QuickPickItem, commands, window } from 'vscode';
-import { QueryConfiguration } from '../interfaces/interfaces';
+import { QueryConfiguration } from '../../interfaces/interfaces';
 
 export default async function addQuery(context: ExtensionContext) {
   const queryPath: QueryConfiguration = {
@@ -123,7 +123,7 @@ async function handleProject(queryPath: QueryConfiguration, organization: string
 
       queries.push(queryPath);
       context.workspaceState.update("queries", _.uniqBy(queries, (e: QueryConfiguration) => { return JSON.stringify(e); }));
-      commands.executeCommand("devops-explorer.refreshQueries");
+      commands.executeCommand("devops-explorer.refreshTreeView");
     } else {
       throw new Error("Please provide an alias for this query");
     }
