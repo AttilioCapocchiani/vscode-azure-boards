@@ -1,5 +1,5 @@
 {
-  "name": "azure-boards",
+  "name": "devops-explorer",
   "displayName": "Azure Boards",
   "description": "A simple VSCode Extension to quickly access your favourite boards on Visual Studio Code",
   "version": "0.0.1",
@@ -16,19 +16,19 @@
   "contributes": {
     "commands": [
       {
-        "command": "azure-boards.addQuery",
+        "command": "devops-explorer.addQuery",
         "title": "Azure Boards: Add Query"
       },
       {
-        "command": "azure-boards.openMenu",
+        "command": "devops-explorer.openMenu",
         "title": "Azure Boards: Open Menu"
       },
       {
-        "command": "azure-boards.runQuery",
+        "command": "devops-explorer.runQuery",
         "title": "Azure Boards: Run Query"
       },
       {
-        "command": "azure-boards.refreshQueries",
+        "command": "devops-explorer.refreshTreeView",
         "title": "Azure Boards: Refresh query",
         "icon": {
           "light": "media/light/reload.svg",
@@ -36,7 +36,7 @@
         }
       },
       {
-        "command": "azure-boards.workItemDetail",
+        "command": "devops-explorer.workItemDetail",
         "title": "Detail",
         "icon": {
           "light": "media/light/search.svg",
@@ -44,7 +44,7 @@
         }
       },
       {
-        "command": "azure-boards.buildDetail",
+        "command": "devops-explorer.buildDetail",
         "title": "Detail",
         "icon": {
           "light": "media/light/search.svg",
@@ -55,19 +55,19 @@
     "menus": {
       "view/title": [
         {
-          "command": "azure-boards.refreshQueries",
+          "command": "devops-explorer.refreshTreeView",
           "when": "view == DevOpsExplorer",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "azure-boards.workItemDetail",
+          "command": "devops-explorer.workItemDetail",
           "when": "view == DevOpsExplorer && viewItem == WorkItem",
           "group": "inline"
         },
         {
-          "command": "azure-boards.buildDetail",
+          "command": "devops-explorer.buildDetail",
           "when": "view == DevOpsExplorer && viewItem == Build",
           "group": "inline"
         }

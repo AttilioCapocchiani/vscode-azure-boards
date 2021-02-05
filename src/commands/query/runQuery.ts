@@ -1,6 +1,6 @@
 import { ExtensionContext, QuickPickItem, ViewColumn, window } from 'vscode';
-import { QueryConfiguration, WorkItem } from '../interfaces/interfaces';
-import * as u from "../utils/utils";
+import { QueryConfiguration, WorkItem } from '../../interfaces/interfaces';
+import * as u from "../../utils/utils";
 
 export default async function runQuery(context: ExtensionContext) {
   const pat: string = context.workspaceState.get("encryptedPAT", "");

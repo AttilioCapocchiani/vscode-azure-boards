@@ -1,5 +1,5 @@
 import { ExtensionContext, QuickPickItem, commands, window } from 'vscode';
-import { QueryConfiguration } from "../interfaces/interfaces";
+import { QueryConfiguration } from "../../interfaces/interfaces";
 
 export default async function deleteQuery(context: ExtensionContext) {
   const pat: string = context.workspaceState.get("encryptedPAT", "");
@@ -20,7 +20,7 @@ export default async function deleteQuery(context: ExtensionContext) {
       if (query) {
         queries = queries.filter((q: QueryConfiguration) => q.queryId !== query.description);
         context.workspaceState.update("queries", queries);
-        commands.executeCommand("azure-boards.refreshQueries");
+        commands.executeCommand("devops-explorer.refreshTreeView");
       }
     }
   }

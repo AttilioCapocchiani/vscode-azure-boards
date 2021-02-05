@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as moment from "moment";
-import { Build, WorkItem } from "../interfaces/interfaces";
+import { Build, Command, WorkItem } from "../interfaces/interfaces";
 import axios from "axios";
 
 export async function runQuery(organization: string, project: string, queryId: string, context: vscode.ExtensionContext, pat?: string): Promise<WorkItem[]> {
@@ -54,6 +54,13 @@ export async function getLastBuilds (organization: string, project: string, cont
 export function camelCaseToSentenceCase(word: string): string {
   const result = word.replace(/([A-Z])/g, " $1");
   return result.charAt(0).toUpperCase() + result.slice(1);
+}
+
+export function mapCommandToQuickPickItem(command: Command): vscode.QuickPickItem {
+  return {
+    label: `$(${command.icon}) ${command.label}`,
+    detail: command.detail
+  };
 }
 
 function mapWorkItem(workItem: any): WorkItem {
