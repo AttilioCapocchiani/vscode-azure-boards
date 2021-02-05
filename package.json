@@ -1,10 +1,10 @@
 {
   "name": "devops-explorer",
-  "displayName": "Azure Boards",
+  "displayName": "DevOps Explorer",
   "publisher": "AttilioCapocchiani",
   "repository": "https://github.com/AttilioCapocchiani/vscode-azure-boards",
   "description": "A simple VSCode Extension to quickly access your favourite boards on Visual Studio Code",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.52.0"
   },
@@ -19,19 +19,19 @@
     "commands": [
       {
         "command": "devops-explorer.addQuery",
-        "title": "Azure Boards: Add Query"
+        "title": "DevOps Explorer: Add Query"
       },
       {
         "command": "devops-explorer.openMenu",
-        "title": "Azure Boards: Open Menu"
+        "title": "DevOps Explorer: Open Menu"
       },
       {
         "command": "devops-explorer.runQuery",
-        "title": "Azure Boards: Run Query"
+        "title": "DevOps Explorer: Run Query"
       },
       {
         "command": "devops-explorer.refreshTreeView",
-        "title": "Azure Boards: Refresh query",
+        "title": "DevOps Explorer: Refresh query",
         "icon": {
           "light": "media/light/reload.svg",
           "dark": "media/dark/reload.svg"
