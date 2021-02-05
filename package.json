@@ -1,6 +1,8 @@
 {
   "name": "devops-explorer",
   "displayName": "Azure Boards",
+  "publisher": "AttilioCapocchiani",
+  "repository": "https://github.com/AttilioCapocchiani/vscode-azure-boards",
   "description": "A simple VSCode Extension to quickly access your favourite boards on Visual Studio Code",
   "version": "0.0.1",
   "engines": {
