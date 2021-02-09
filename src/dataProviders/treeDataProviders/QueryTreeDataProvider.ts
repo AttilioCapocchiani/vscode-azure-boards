@@ -53,15 +53,32 @@ export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEn
         case "Build":
           if (element.wrapper) {
             const build: Build = element.wrapper as Build;
-            return Promise.resolve([
-              new TreeItemEntry(`Id: ${build.id}`, "", "BuildField", vscode.TreeItemCollapsibleState.None),
-              new TreeItemEntry(`Status: ${build.status}`, "", "BuildField", vscode.TreeItemCollapsibleState.None),
-              new TreeItemEntry(`Result: ${build.result}`, "", "BuildField", vscode.TreeItemCollapsibleState.None),
-              new TreeItemEntry(`Start Time: ${build.startTime ? build.startTime : ""}`, "", "BuildField", vscode.TreeItemCollapsibleState.None),
-              new TreeItemEntry(`Finish Time: ${build.finishTime ? build.finishTime : ""}`, "", "BuildField", vscode.TreeItemCollapsibleState.None),
-              new TreeItemEntry(`Requested for: ${build.requestedFor}`, "", "BuildField", vscode.TreeItemCollapsibleState.None),
-              new TreeItemEntry(`Repository Name: ${build.repositoryName}`, "", "BuildField", vscode.TreeItemCollapsibleState.None),
-            ]);
+            const entries = [];
+
+            if (build.id) {
+              entries.push(new TreeItemEntry(`Id: ${build.id}`, "", "BuildField", vscode.TreeItemCollapsibleState.None));
+            }
+            if (build.status) {
+              entries.push(new TreeItemEntry(`Status: ${build.status}`, "", "BuildField", vscode.TreeItemCollapsibleState.None));
+            }
+            if (build.result) {
+              entries.push(new TreeItemEntry(`Result: ${build.result}`, "", "BuildField", vscode.TreeItemCollapsibleState.None));
+            }
+            if (build.startTime) {
+              entries.push(new TreeItemEntry(`Start Time: ${build.startTime ? build.startTime : ""}`, "", "BuildField", vscode.TreeItemCollapsibleState.None));
+            }
+            if (build.finishTime) {
+              entries.push(new TreeItemEntry(`Finish Time: ${build.finishTime ? build.finishTime : ""}`, "", "BuildField", vscode.TreeItemCollapsibleState.None));
+            }
+            if (build.requestedFor) {
+              entries.push(new TreeItemEntry(`Requested for: ${build.requestedFor}`, "", "BuildField", vscode.TreeItemCollapsibleState.None));
+            }
+            if (build.repositoryName) {
+              entries.push(new TreeItemEntry(`Repository Name: ${build.repositoryName}`, "", "BuildField", vscode.TreeItemCollapsibleState.None));
+            }
+
+            return Promise.resolve(entries);
+
           }
           return Promise.resolve([]);
         case "QueryRoot":
@@ -99,7 +116,7 @@ export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEn
     } else {
       const buildViewStatus: string = this.context.workspaceState.get("BUILD_VIEW_STATUS", "HIDDEN");
       const queryViewStatus: string = this.context.workspaceState.get("QUERY_VIEW_STATUS", "HIDDEN");
-      
+
       const tree: TreeItemEntry[] = [];
       if (buildViewStatus === "VISIBLE") {
         tree.push(new TreeItemEntry("Builds", "", "BuildsRoot", vscode.TreeItemCollapsibleState.Collapsed));
