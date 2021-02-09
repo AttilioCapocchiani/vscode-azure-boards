@@ -32,8 +32,6 @@ export async function getLastBuilds (organization: string, project: string, cont
     }
   };
 
-  vscode.window.showInformationMessage(`https://dev.azure.com/${organization}/${project}/_apis/build/builds?api-version=6.0`);
-
   const response = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/build/builds?api-version=6.0`, options);
   const builds: Build[] = response.data.value.map((build: any): Build => {
     return {

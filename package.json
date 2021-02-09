@@ -19,7 +19,11 @@
     "commands": [
       {
         "command": "devops-explorer.addQuery",
-        "title": "DevOps Explorer: Add Query"
+        "title": "DevOps Explorer: Add Query",
+         "icon": {
+          "light": "media/light/plus.svg",
+          "dark": "media/dark/plus.svg"
+        }
       },
       {
         "command": "devops-explorer.openMenu",
@@ -63,6 +67,11 @@
         }
       ],
       "view/item/context": [
+        {
+          "command": "devops-explorer.addQuery",
+          "when": "view == DevOpsExplorer && viewItem == QueryRoot",
+          "group": "inline"
+        },
         {
           "command": "devops-explorer.workItemDetail",
           "when": "view == DevOpsExplorer && viewItem == WorkItem",
