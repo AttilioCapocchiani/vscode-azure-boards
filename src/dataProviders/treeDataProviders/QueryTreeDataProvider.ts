@@ -126,12 +126,14 @@ export class TreeItemEntry extends vscode.TreeItem {
     this.wrapper = wrapper;
     this.contextValue = type;
 
-    console.log(path.join(__dirname, "..", "..", "..", "media", "light", "tick.svg"));
-
     switch (type) {
       case "Build":
         switch ((wrapper as Build).status) {
           case "notStarted":
+            this.iconPath = {
+              light: path.join(__dirname, "..", "..", "..", "media", "light", "sand-clock.svg"),
+              dark: path.join(__dirname, "..", "..", "..", "media", "dark", "sand-clock.svg")
+            };
             break;
           case "completed":
             if ((wrapper as Build).originalObject.result === "succeeded") {
@@ -148,8 +150,8 @@ export class TreeItemEntry extends vscode.TreeItem {
             break;
           case "inProgress":
             this.iconPath = {
-              light: path.join(__dirname, "..", "..", "..", "media", "light", "gear.svg"),
-              dark: path.join(__dirname, "..", "..", "..", "media", "dark", "gear.svg")
+              light: path.join(__dirname, "..", "..", "..", "media", "light", "wrench.svg"),
+              dark: path.join(__dirname, "..", "..", "..", "media", "dark", "wrench.svg")
             };
             break;
           default:
