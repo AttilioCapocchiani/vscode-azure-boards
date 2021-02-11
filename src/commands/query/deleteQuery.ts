@@ -20,7 +20,7 @@ export default async function deleteQuery(context: ExtensionContext) {
       if (query) {
         queries = queries.filter((q: QueryConfiguration) => q.queryId !== query.description);
         context.workspaceState.update("queries", queries);
-        commands.executeCommand("devops-explorer.refreshTreeView");
+        commands.executeCommand("devops-explorer.refreshQueryView");
       }
     }
   }

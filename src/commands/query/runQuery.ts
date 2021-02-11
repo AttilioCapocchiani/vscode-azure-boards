@@ -2,7 +2,7 @@ import { ExtensionContext, QuickPickItem, ViewColumn, window } from 'vscode';
 import { QueryConfiguration, WorkItem } from '../../interfaces/interfaces';
 import * as u from "../../utils/utils";
 
-export default async function runQuery(context: ExtensionContext) {
+export async function runQuery(context: ExtensionContext) {
   const pat: string = context.workspaceState.get("encryptedPAT", "");
   if (pat) {
     const queries: Array<QueryConfiguration> = context.workspaceState.get("queries", []);
@@ -36,6 +36,18 @@ export default async function runQuery(context: ExtensionContext) {
   } else {
     window.showErrorMessage("PAT not found. Run Setup Personal Access Token");
   }
+}
+
+export async function runSpecificQuery (context: ExtensionContext, organization: string, project: string, queryName: string, queryId: string) {
+  const workItems = await u.runQuery(organization, project, queryId, context);
+
+  const panel = window.createWebviewPanel(
+    'queryResults',
+    `${queryName} Results`,
+    ViewColumn.One,
+    {}
+  );
+  panel.webview.html = getWebviewContent(workItems, organization, project);
 }
 
 function getWebviewContent(rows: WorkItem[], organization: string, project: string) {
