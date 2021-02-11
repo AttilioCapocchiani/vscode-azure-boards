@@ -20,7 +20,7 @@
       {
         "command": "devops-explorer.addQuery",
         "title": "DevOps Explorer: Add Query",
-         "icon": {
+        "icon": {
           "light": "media/light/plus.svg",
           "dark": "media/dark/plus.svg"
         }
@@ -31,10 +31,22 @@
       },
       {
         "command": "devops-explorer.runQuery",
-        "title": "DevOps Explorer: Run Query"
+        "title": "DevOps Explorer: Run Query",
+        "icon": {
+          "light": "media/light/play.svg",
+          "dark": "media/dark/play.svg"
+        }
       },
       {
-        "command": "devops-explorer.refreshTreeView",
+        "command": "devops-explorer.refreshBuildView",
+        "title": "DevOps Explorer: Refresh query",
+        "icon": {
+          "light": "media/light/reload.svg",
+          "dark": "media/dark/reload.svg"
+        }
+      },
+      {
+        "command": "devops-explorer.refreshQueryView",
         "title": "DevOps Explorer: Refresh query",
         "icon": {
           "light": "media/light/reload.svg",
@@ -61,25 +73,35 @@
     "menus": {
       "view/title": [
         {
-          "command": "devops-explorer.refreshTreeView",
-          "when": "view == DevOpsExplorer",
+          "command": "devops-explorer.refreshBuildView",
+          "when": "view == BuildView",
+          "group": "navigation"
+        },
+        {
+          "command": "devops-explorer.refreshQueryView",
+          "when": "view == QueryView",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
           "command": "devops-explorer.addQuery",
-          "when": "view == DevOpsExplorer && viewItem == QueryRoot",
+          "when": "view == QueryView && viewItem == QueryRoot",
+          "group": "inline"
+        },
+        {
+          "command": "devops-explorer.runQuery",
+          "when": "view == QueryView && viewItem == Query",
           "group": "inline"
         },
         {
           "command": "devops-explorer.workItemDetail",
-          "when": "view == DevOpsExplorer && viewItem == WorkItem",
+          "when": "view == QueryView && viewItem == WorkItem",
           "group": "inline"
         },
         {
           "command": "devops-explorer.buildDetail",
-          "when": "view == DevOpsExplorer && viewItem == Build",
+          "when": "view == BuildView && viewItem == Build",
           "group": "inline"
         }
       ]
@@ -87,9 +109,21 @@
     "views": {
       "DevOpsExplorer": [
         {
-          "id": "DevOpsExplorer",
-          "name": "DevOps Explorer",
-          "icon": "media/DevOps.svg"
+          "id": "WelcomeScreen",
+          "name": "Quick Setup",
+          "when": "showWelcomeScreen"
+        },
+        {
+          "id": "QueryView",
+          "name": "Query",
+          "icon": "media/DevOps.svg",
+          "when": "queryViewEnabled"
+        },
+        {
+          "id": "BuildView",
+          "name": "Build",
+          "icon": "media/DevOps.svg",
+          "when": "buildViewEnabled"
         }
       ]
     },
@@ -101,7 +135,13 @@
           "icon": "media/DevOps.svg"
         }
       ]
-    }
+    },
+    "viewsWelcome": [
+      {
+        "view": "WelcomeScreen",
+        "contents": "This may be the first time you run this extension.\nFollow this steps to setup correctly this extension\n1.Request a Personal Access Token from [Azure DevOps](https://dev.azure.com/) giving permissions on Work Items (read) and Build (read) based on what you want to see here)\n[2. Paste your PAT, it will be saved encrypted](command:devops-explorer.setPAT)\n[3. Enable query view if you need it](command:devops-explorer.showQueryView)\n[4. Enable Build view if you need it](command:devops-explorer.showBuildView)\n[Add your first query](command:devops-explorer.addQuery)\n[Add your first project to watch builds](command:devops-explorer.addProject)\n[Close this window](command:devops-explorer.hideWelcomeScreen)"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
