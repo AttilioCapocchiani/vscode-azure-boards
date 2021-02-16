@@ -1,0 +1,182 @@
+{
+  "name": "devops-explorer",
+  "displayName": "DevOps Explorer",
+  "publisher": "AttilioCapocchiani",
+  "icon": "media/icon.png",
+  "repository": "https://github.com/AttilioCapocchiani/vscode-azure-boards",
+  "description": "A simple Extension to quickly access your favourite Azure DevOps boards and builds on Visual Studio Code",
+  "version": "0.0.4",
+  "engines": {
+    "vscode": "^1.52.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "keywords": [
+    "Azure DevOps",
+    "Azure Builds",
+    "DevOps",
+    "work items"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "devops-explorer.addQuery",
+        "title": "DevOps Explorer: Add Query",
+        "icon": {
+          "light": "media/light/plus.svg",
+          "dark": "media/dark/plus.svg"
+        }
+      },
+      {
+        "command": "devops-explorer.openMenu",
+        "title": "DevOps Explorer: Open Menu"
+      },
+      {
+        "command": "devops-explorer.runQuery",
+        "title": "DevOps Explorer: Run Query",
+        "icon": {
+          "light": "media/light/play.svg",
+          "dark": "media/dark/play.svg"
+        }
+      },
+      {
+        "command": "devops-explorer.refreshBuildView",
+        "title": "DevOps Explorer: Refresh query",
+        "icon": {
+          "light": "media/light/sync-alt.svg",
+          "dark": "media/dark/sync-alt.svg"
+        }
+      },
+      {
+        "command": "devops-explorer.refreshQueryView",
+        "title": "DevOps Explorer: Refresh query",
+        "icon": {
+          "light": "media/light/sync-alt.svg",
+          "dark": "media/dark/sync-alt.svg"
+        }
+      },
+      {
+        "command": "devops-explorer.workItemDetail",
+        "title": "Detail",
+        "icon": {
+          "light": "media/light/search.svg",
+          "dark": "media/dark/search.svg"
+        }
+      },
+      {
+        "command": "devops-explorer.buildDetail",
+        "title": "Detail",
+        "icon": {
+          "light": "media/light/external-link-alt.svg",
+          "dark": "media/dark/external-link-alt.svg"
+        }
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "devops-explorer.refreshBuildView",
+          "when": "view == BuildView",
+          "group": "navigation"
+        },
+        {
+          "command": "devops-explorer.refreshQueryView",
+          "when": "view == QueryView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "devops-explorer.addQuery",
+          "when": "view == QueryView && viewItem == QueryRoot",
+          "group": "inline"
+        },
+        {
+          "command": "devops-explorer.runQuery",
+          "when": "view == QueryView && viewItem == Query",
+          "group": "inline"
+        },
+        {
+          "command": "devops-explorer.workItemDetail",
+          "when": "view == QueryView && viewItem == WorkItem",
+          "group": "inline"
+        },
+        {
+          "command": "devops-explorer.buildDetail",
+          "when": "view == BuildView && viewItem == Build",
+          "group": "inline"
+        }
+      ]
+    },
+    "views": {
+      "DevOpsExplorer": [
+        {
+          "id": "WelcomeScreen",
+          "name": "Quick Setup",
+          "when": "showWelcomeScreen"
+        },
+        {
+          "id": "QueryView",
+          "name": "Query",
+          "icon": "media/DevOps.svg",
+          "when": "queryViewEnabled"
+        },
+        {
+          "id": "BuildView",
+          "name": "Build",
+          "icon": "media/DevOps.svg",
+          "when": "buildViewEnabled"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "DevOpsExplorer",
+          "title": "DevOps Explorer",
+          "icon": "media/DevOps.svg"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "WelcomeScreen",
+        "contents": "This may be the first time you run this extension.\nFollow this steps to setup correctly this extension\n1.Request a Personal Access Token from [Azure DevOps](https://dev.azure.com/) giving permissions on Work Items (read) and Build (read) based on what you want to see here)\n[2. Paste your PAT, it will be saved encrypted](command:devops-explorer.setPAT)\n[3. Enable query view if you need it](command:devops-explorer.showQueryView)\n[4. Enable Build view if you need it](command:devops-explorer.showBuildView)\n[Add your first query](command:devops-explorer.addQuery)\n[Add your first project to watch builds](command:devops-explorer.addProject)\n[Close this window](command:devops-explorer.hideWelcomeScreen)"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "deploy": "vsce publish --yarn"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/lodash": "^4.14.168",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.52.0",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.15.0",
+    "glob": "^7.1.6",
+    "mocha": "^8.1.3",
+    "typescript": "^4.1.2",
+    "vsce": "^1.84.0",
+    "vscode-test": "^1.4.1"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1"
+  }
+}
