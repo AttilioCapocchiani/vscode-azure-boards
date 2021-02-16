@@ -3,8 +3,8 @@
   "displayName": "DevOps Explorer",
   "publisher": "AttilioCapocchiani",
   "repository": "https://github.com/AttilioCapocchiani/vscode-azure-boards",
-  "description": "A simple VSCode Extension to quickly access your favourite boards on Visual Studio Code",
-  "version": "0.0.2",
+  "description": "A simple Extension to quickly access your favourite Azure DevOps boards and builds on Visual Studio Code",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.52.0"
   },
@@ -41,16 +41,16 @@
         "command": "devops-explorer.refreshBuildView",
         "title": "DevOps Explorer: Refresh query",
         "icon": {
-          "light": "media/light/reload.svg",
-          "dark": "media/dark/reload.svg"
+          "light": "media/light/sync-alt.svg",
+          "dark": "media/dark/sync-alt.svg"
         }
       },
       {
         "command": "devops-explorer.refreshQueryView",
         "title": "DevOps Explorer: Refresh query",
         "icon": {
-          "light": "media/light/reload.svg",
-          "dark": "media/dark/reload.svg"
+          "light": "media/light/sync-alt.svg",
+          "dark": "media/dark/sync-alt.svg"
         }
       },
       {
@@ -65,8 +65,8 @@
         "command": "devops-explorer.buildDetail",
         "title": "Detail",
         "icon": {
-          "light": "media/light/search.svg",
-          "dark": "media/dark/search.svg"
+          "light": "media/light/external-link-alt.svg",
+          "dark": "media/dark/external-link-alt.svg"
         }
       }
     ],
