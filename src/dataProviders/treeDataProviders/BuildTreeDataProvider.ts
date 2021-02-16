@@ -114,20 +114,20 @@ export class TreeItemEntry extends vscode.TreeItem {
       switch ((wrapper as Build).status) {
         case "notStarted":
           this.iconPath = {
-            light: path.join(__dirname, "..", "..", "..", "media", "light", "sand-clock.svg"),
-            dark: path.join(__dirname, "..", "..", "..", "media", "dark", "sand-clock.svg")
+            light: path.join(__dirname, "..", "..", "..", "media", "light", "spinner.svg"),
+            dark: path.join(__dirname, "..", "..", "..", "media", "dark", "spinner.svg")
           };
           break;
         case "completed":
           if ((wrapper as Build).originalObject.result === "succeeded") {
             this.iconPath = {
-              light: path.join(__dirname, "..", "..", "..", "media", "light", "tick.svg"),
-              dark: path.join(__dirname, "..", "..", "..", "media", "dark", "tick.svg")
+              light: path.join(__dirname, "..", "..", "..", "media", "light", "check.svg"),
+              dark: path.join(__dirname, "..", "..", "..", "media", "dark", "check.svg")
             };
           } else {
             this.iconPath = {
-              light: path.join(__dirname, "..", "..", "..", "media", "light", "cross.svg"),
-              dark: path.join(__dirname, "..", "..", "..", "media", "dark", "cross.svg")
+              light: path.join(__dirname, "..", "..", "..", "media", "light", "times.svg"),
+              dark: path.join(__dirname, "..", "..", "..", "media", "dark", "times.svg")
             };
           }
           break;
@@ -139,8 +139,8 @@ export class TreeItemEntry extends vscode.TreeItem {
           break;
         default:
           this.iconPath = {
-            light: path.join(__dirname, "..", "..", "..", "media", "light", "cross.svg"),
-            dark: path.join(__dirname, "..", "..", "..", "media", "dark", "cross.svg")
+            light: path.join(__dirname, "..", "..", "..", "media", "light", "times.svg"),
+            dark: path.join(__dirname, "..", "..", "..", "media", "dark", "times.svg")
           };
       }
     }
