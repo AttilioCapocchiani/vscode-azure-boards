@@ -35,4 +35,5 @@ export interface WorkItem {
   title: string
   workItemType: string
   originalObject: any
+  children?: WorkItem[]
 }
