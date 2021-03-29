@@ -23,15 +23,18 @@ export async function runQuery(organization: string, project: string, queryId: s
     const mapped: any[] = workItems.map(stripUnnecessaryFields);
     const idSet: Set<number> = new Set();
     const tree = unflatten(mapped, idSet);
-    console.log(JSON.stringify(tree));
     const ids = Array.from(idSet).join(',');
 
     const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${ids}&api-version=6.1-preview.3`, options);
     const workItemsDetail: WorkItem[] = detailResponse.data.value.map(mapWorkItem);
 
-    console.log(JSON.stringify(workItemsDetail));
+    const result: WorkItem[] = [];
 
-    return workItemsDetail;
+    for (let item of tree) {
+      result.push(navigate(item, workItemsDetail));
+    }
+
+    return result;
   } else if (response.data.queryResultType === "workItem") {
     const workItems = response.data.workItems.map((workItem: any) => workItem.id).join(',');
     const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${workItems}&api-version=6.1-preview.3`, options);
@@ -118,21 +121,34 @@ function unflatten(array: any[], ids: Set<number>, parent?: any, tree?: any[]): 
   tree = typeof tree !== 'undefined' ? tree : [];
   parent = typeof parent !== 'undefined' ? parent : { id: 0 };
 
-  const children = array.filter(child => child.parentid === parent.id)
+  const children = array.filter(child => child.parentid === parent.id);
 
   if (!_.isEmpty(children)) {
     if (parent.id === 0) {
       tree = children;
     } else {
-      parent['children'] = children
+      parent['children'] = children;
       ids.add(parent.id);
     }
 
     children.forEach(child => {
-      ids.add(child.id)
+      ids.add(child.id);
       unflatten(array, ids, child);
     });
   }
 
   return tree;
+}
+
+function navigate(item: any, source: WorkItem[]): WorkItem {
+  const workItem = source.find((wi: WorkItem) => wi.id === item.id)!!;
+
+  if ('children' in item && item.children.length) {
+    workItem.children = [];
+    item.children.forEach((child: any) => {
+      workItem.children!!.push(navigate(child, source));
+    });
+  }
+
+  return workItem;
 }
