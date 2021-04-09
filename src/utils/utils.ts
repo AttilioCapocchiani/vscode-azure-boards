@@ -18,7 +18,48 @@ export async function runQuery(organization: string, project: string, queryId: s
   const workItems = response.data.workItems.map((workItem: any) => workItem.id).join(',');
   const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${workItems}&api-version=6.1-preview.3`, options);
 
-  return detailResponse.data.value.map(mapWorkItem);
+  if (response.data.queryResultType === "workItemLink") {
+    const workItems: any[] = response.data.workItemRelations;
+
+    const mapped: any[] = workItems.map(stripUnnecessaryFields);
+    const idSet: Set<number> = new Set();
+    const tree = unflatten(mapped, idSet);
+    const ids = Array.from(idSet).join(',');
+
+    const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${ids}&api-version=6.1-preview.3`, options);
+    const workItemsDetail: WorkItem[] = detailResponse.data.value
+      .map(mapWorkItem)
+      .map((workItem: WorkItem) => { 
+        return { 
+          ...workItem, 
+          organization, 
+          project 
+        };
+      });
+
+    const result: WorkItem[] = [];
+
+    for (let item of tree) {
+      result.push(navigate(item, workItemsDetail));
+    }
+
+    return result;
+  } else if (response.data.queryResultType === "workItem") {
+    const workItems = response.data.workItems.map((workItem: any) => workItem.id).join(',');
+    const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${workItems}&api-version=6.1-preview.3`, options);
+
+    return detailResponse.data.value
+      .map(mapWorkItem)
+      .map((workItem: WorkItem) => { 
+        return { 
+          ...workItem, 
+          organization, 
+          project 
+        };
+      });
+  } else {
+    return [];
+  }
 }
 
 export async function getLastBuilds (organization: string, project: string, context: vscode.ExtensionContext, pat?: string): Promise<Build[]> {

@@ -27,12 +27,15 @@ export interface WorkItem {
   assignedTo: string
   changedBy: string
   changedDate: string
+  children?: WorkItem[]
   createdBy: string
   createdDate: string
   id: string
+  originalObject: any
   reason: string
   state: string
   title: string
+  wrapper?: any
   workItemType: string
   originalObject: any
 }
