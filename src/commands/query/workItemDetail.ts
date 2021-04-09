@@ -4,8 +4,6 @@ import { TreeItemEntry } from "../../dataProviders/treeDataProviders/QueryTreeDa
 import { WorkItem } from "../../interfaces/interfaces";
 
 export default async function openWorkItemDetail(workItem: TreeItemEntry) {
-  console.log(workItem);
-
   const panel = window.createWebviewPanel(
     'workItemDetail',
     workItem.label,
