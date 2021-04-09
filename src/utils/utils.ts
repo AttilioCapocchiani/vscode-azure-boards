@@ -26,7 +26,15 @@ export async function runQuery(organization: string, project: string, queryId: s
     const ids = Array.from(idSet).join(',');
 
     const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${ids}&api-version=6.1-preview.3`, options);
-    const workItemsDetail: WorkItem[] = detailResponse.data.value.map(mapWorkItem);
+    const workItemsDetail: WorkItem[] = detailResponse.data.value
+      .map(mapWorkItem)
+      .map((workItem: WorkItem) => { 
+        return { 
+          ...workItem, 
+          organization, 
+          project 
+        };
+      });
 
     const result: WorkItem[] = [];
 
@@ -39,7 +47,15 @@ export async function runQuery(organization: string, project: string, queryId: s
     const workItems = response.data.workItems.map((workItem: any) => workItem.id).join(',');
     const detailResponse = await axios.get(`https://dev.azure.com/${organization}/${project}/_apis/wit/workitems?ids=${workItems}&api-version=6.1-preview.3`, options);
 
-    return detailResponse.data.value.map(mapWorkItem);
+    return detailResponse.data.value
+      .map(mapWorkItem)
+      .map((workItem: WorkItem) => { 
+        return { 
+          ...workItem, 
+          organization, 
+          project 
+        };
+      });
   } else {
     return [];
   }

@@ -69,6 +69,14 @@
         }
       },
       {
+        "command": "devops-explorer.openWorkItemInBrowser",
+        "title": "Open in Browser",
+        "icon": {
+          "light": "media/light/external-link-alt.svg",
+          "dark": "media/dark/external-link-alt.svg"
+        }
+      },
+      {
         "command": "devops-explorer.buildDetail",
         "title": "Detail",
         "icon": {
@@ -103,6 +111,11 @@
         },
         {
           "command": "devops-explorer.workItemDetail",
+          "when": "view == QueryView && viewItem == WorkItem",
+          "group": "inline"
+        },
+        {
+          "command": "devops-explorer.openWorkItemInBrowser",
           "when": "view == QueryView && viewItem == WorkItem",
           "group": "inline"
         },
