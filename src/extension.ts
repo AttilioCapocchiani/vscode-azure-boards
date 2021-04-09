@@ -4,7 +4,7 @@ import { window, commands, ExtensionContext } from "vscode";
 
 import querySettings from "./commands/query/querySettings";
 import buildSettings from "./commands/build/buildSettings";
-import { hideQueryView, showQueryView } from "./commands/query/queryCommands";
+import { hideQueryView, showQueryView, workItemDetail } from "./commands/query/queryCommands";
 import { hideBuildView, showBuildView } from "./commands/build/buildCommands";
 
 
@@ -19,7 +19,7 @@ import openSettings from "./commands/settings/openSettings";
 
 import { QueryTreeDataProvider, TreeItemEntry } from "./dataProviders/treeDataProviders/QueryTreeDataProvider";
 import { QueryTreeDataProvider as BuildsTreeDataProvider, TreeItemEntry as BuildTreeItemEntry } from "./dataProviders/treeDataProviders/BuildTreeDataProvider";
-import { QueryConfiguration } from "./interfaces/interfaces";
+import { QueryConfiguration, WorkItem } from "./interfaces/interfaces";
 import { wrap } from "lodash";
 
 async function setPAT(context: ExtensionContext) {
@@ -68,6 +68,7 @@ export function activate(context: ExtensionContext) {
   });
   const showQueryViewCommand = commands.registerCommand("devops-explorer.showQueryView", () => showQueryView(context));
   const workItemDetailCommand = commands.registerCommand("devops-explorer.workItemDetail", (workItem: TreeItemEntry) => openWorkItemDetail(workItem));
+  const openWorkItemInBrowser = commands.registerCommand("devops-explorer.openWorkItemInBrowser", (workItem: WorkItem) => workItemDetail(workItem.wrapper.id, workItem.wrapper.organization, workItem.wrapper.project));
 
   // Build
   const buildSettingsCommand = commands.registerCommand("devops-explorer.buildSettings", () => buildSettings(context));
@@ -93,6 +94,7 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(hideBuildViewCommand);
   context.subscriptions.push(hideQueryViewCommand);
   context.subscriptions.push(openSettingsCommand);
+  context.subscriptions.push(openWorkItemInBrowser);
   context.subscriptions.push(querySettingsCommand);
   context.subscriptions.push(runQueryCommand);
   context.subscriptions.push(setPATCommand);

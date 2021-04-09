@@ -1,9 +1,8 @@
 # Change Log
+All notable changes will be documented in this file.
 
-All notable changes to the "devops-explorer" extension will be documented in this file.
+## [1.0.3] - 2021/03/29
+- Fixed a bug that would break query result view on tree-based queries
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+## [1.0.0] - 2021/02/16
+- First release
