@@ -38,4 +38,5 @@ export interface WorkItem {
   wrapper?: any
   workItemType: string
   originalObject: any
+  children?: WorkItem[]
 }
