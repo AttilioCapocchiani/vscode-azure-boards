@@ -5,7 +5,7 @@
   "icon": "media/icon.png",
   "repository": "https://github.com/AttilioCapocchiani/vscode-azure-boards",
   "description": "A simple Extension to quickly access your favourite Azure DevOps boards and builds on Visual Studio Code",
-  "version": "0.0.4",
+  "version": "1.0.3",
   "engines": {
     "vscode": "^1.52.0"
   },
@@ -69,6 +69,14 @@
         }
       },
       {
+        "command": "devops-explorer.openWorkItemInBrowser",
+        "title": "Open in Browser",
+        "icon": {
+          "light": "media/light/external-link-alt.svg",
+          "dark": "media/dark/external-link-alt.svg"
+        }
+      },
+      {
         "command": "devops-explorer.buildDetail",
         "title": "Detail",
         "icon": {
@@ -103,6 +111,11 @@
         },
         {
           "command": "devops-explorer.workItemDetail",
+          "when": "view == QueryView && viewItem == WorkItem",
+          "group": "inline"
+        },
+        {
+          "command": "devops-explorer.openWorkItemInBrowser",
           "when": "view == QueryView && viewItem == WorkItem",
           "group": "inline"
         },

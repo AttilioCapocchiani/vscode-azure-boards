@@ -25,7 +25,11 @@ export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEn
             if (element.wrapper) {
               const workItems: WorkItem[] = await u.runQuery((element.wrapper as QueryConfiguration).organization, (element.wrapper as QueryConfiguration).project, (element.wrapper as QueryConfiguration).queryId, this.context, "");
               return workItems.map((workItem: WorkItem) => {
-                return new TreeItemEntry(`${workItem.workItemType} #${workItem.id}: ${workItem.title}`, `${workItem.state} - ${workItem.assignedTo}`, "WorkItem", vscode.TreeItemCollapsibleState.None, workItem);
+                if (workItem.children && workItem.children.length > 0) {
+                  return new TreeItemEntry(`${workItem.workItemType} #${workItem.id}: ${workItem.title}`, `${workItem.state} - ${workItem.assignedTo}`, "WorkItem", vscode.TreeItemCollapsibleState.Collapsed, workItem);
+                } else {
+                  return new TreeItemEntry(`${workItem.workItemType} #${workItem.id}: ${workItem.title}`, `${workItem.state} - ${workItem.assignedTo}`, "WorkItem", vscode.TreeItemCollapsibleState.None, workItem);
+                }
               });
             } else {
               return Promise.resolve([]);
@@ -34,10 +38,22 @@ export class QueryTreeDataProvider implements vscode.TreeDataProvider<TreeItemEn
           return Promise.resolve([]);
         case "WorkItem":
           if (element.wrapper) {
-            return Object.entries(element.wrapper)
-              .map((entry: [string, any]) => {
-                return new TreeItemEntry(`${u.camelCaseToSentenceCase(entry[0])} - ${entry[1]}`, "", "WorkItemField", vscode.TreeItemCollapsibleState.None);
+            if ((element.wrapper as WorkItem).children) {
+              const children = (element.wrapper as WorkItem).children;
+
+              return children!!.map((workItem: WorkItem) => {
+                if (workItem.children && workItem.children.length > 0) {
+                  return new TreeItemEntry(`${workItem.workItemType} #${workItem.id}: ${workItem.title}`, `${workItem.state} - ${workItem.assignedTo}`, "WorkItem", vscode.TreeItemCollapsibleState.Collapsed, workItem);
+                } else {
+                  return new TreeItemEntry(`${workItem.workItemType} #${workItem.id}: ${workItem.title}`, `${workItem.state} - ${workItem.assignedTo}`, "WorkItem", vscode.TreeItemCollapsibleState.None, workItem);
+                }
               });
+            } else {
+              return Object.entries(element.wrapper)
+                .map((entry: [string, any]) => {
+                  return new TreeItemEntry(`${u.camelCaseToSentenceCase(entry[0])} - ${entry[1]}`, "", "WorkItemField", vscode.TreeItemCollapsibleState.None);
+                });
+            }
           }
           return Promise.resolve([]);
         default:
