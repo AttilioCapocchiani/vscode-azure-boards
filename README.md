@@ -1,8 +1,4 @@
 # Azure DevOps Explorer
-![](https://vsmarketplacebadge.apphb.com/version-short/attiliocapocchiani.devops-explorer.svg)
-![](https://vsmarketplacebadge.apphb.com/installs-short/attiliocapocchiani.devops-explorer.svg)
-
-
 Thank you for downloading this extension! It will help you browse your favourite Azure DevOps queries and builds without leaving your favourite code editor!
 
 In order to do this, it uses **official API**, and uses Azure DevOps Personal Access Token (*PAT*) for user identity.
