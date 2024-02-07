@@ -5,7 +5,7 @@
   "icon": "media/icon.png",
   "repository": "https://github.com/AttilioCapocchiani/vscode-azure-boards",
   "description": "A simple Extension to quickly access your favourite Azure DevOps boards and builds on Visual Studio Code",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "engines": {
     "vscode": "^1.52.0"
   },
