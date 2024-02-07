@@ -16,13 +16,18 @@ function getWebviewContent(workItem: any): string {
   return `<html>
     <body>
       <h1>${workItem["System.Title"]}</h1>
-      <h3>Assigned To: ${workItem["System.AssignedTo"].displayName}</h3>
+      <h3>Assigned To: ${workItem["System.AssignedTo"]?.displayName || ''}</h3>
       <h3>${workItem["System.State"]} - ${workItem["System.Reason"]}</h3>
-      <h3>Created: ${moment(workItem["System.CreatedDate"]).format("DD/MM/yyyy HH:mm:ss")} by ${workItem["System.CreatedBy"].displayName}</h3> 
-      <h3>Changed: ${moment(workItem["System.ChangedDate"]).format("DD/MM/yyyy HH:mm:ss")} by ${workItem["System.CreatedBy"].displayName}</h3> 
+      <h3>Created: ${moment(workItem["System.CreatedDate"]).format("DD/MM/yyyy HH:mm:ss")} by ${workItem["System.CreatedBy"]?.displayName || ''}</h3> 
+      <h3>Changed: ${moment(workItem["System.ChangedDate"]).format("DD/MM/yyyy HH:mm:ss")} by ${workItem["System.CreatedBy"]?.displayName || ''}</h3> 
       
       <h2>Description</h2>
       <p>${workItem["System.Description"] || "&nbsp;"}</p>
+
+      <hr />
+
+      <h2>Acceptance Criteria</h2>
+      <p>${workItem["Microsoft.VSTS.Common.AcceptanceCriteria"] || "&nbsp;"}</p>
 
       <hr />
 
