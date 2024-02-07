@@ -103,7 +103,7 @@ export function mapCommandToQuickPickItem(command: Command): vscode.QuickPickIte
 
 function mapWorkItem(workItem: any): WorkItem {
   return {
-    assignedTo: workItem.fields["System.AssignedTo"].displayName,
+    assignedTo: workItem.fields["System.AssignedTo"]?.displayName || 'Unassigned',
     changedBy: workItem.fields["System.ChangedBy"].displayName,
     changedDate: moment(workItem.fields["System.ChangedDate"]).format('DD/MM/yyyy HH:mm:ss'),
     createdBy: workItem.fields["System.CreatedBy"].displayName,
