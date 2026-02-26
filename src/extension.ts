@@ -54,7 +54,7 @@ export function activate(context: ExtensionContext) {
 
   // Query
   const addQueryCommand = commands.registerCommand("devops-explorer.addQuery", () => addQuery(context));
-  const deleteQueryCommand = commands.registerCommand("devops-explorer.addProject", () => addProject(context));
+  const deleteQueryCommand = commands.registerCommand("devops-explorer.deleteQuery", () => deleteQuery(context));
   const hideQueryViewCommand = commands.registerCommand("devops-explorer.hideQueryView", () => hideQueryView(context));
   const querySettingsCommand = commands.registerCommand("devops-explorer.querySettings", () => querySettings(context));
   const refreshQueryCommand = commands.registerCommand('devops-explorer.refreshQueryView', () => queryTreeDataProvider.refresh());
